@@ -15,26 +15,28 @@ var currentDay = [
     {hour: "05", time: 17, meridiem: "pm", input: ""},   
 ];
 
-currentDay.forEach(function(currentHour) {
+for (i = 0; i < currentDay.length; i++) {
     let hourRow = $('<form>').attr({
         'class': 'row'
-    });
+    })
 
+    let currentItem = localStorage.getItem('item-' + i);
+    
     $('.container').append(hourRow);
 
     let timeOfDay = $('<div>')
-        .text(`${currentHour.hour}${currentHour.meridiem}`)
+        .text(`${currentDay[i].hour}${currentDay[i].meridiem}`)
         timeOfDay.attr({'class': 'col-md-2 hour'})
          hourRow.append(timeOfDay);
     
     let inputBox = $('<input>')
         inputBox.attr({'class': 'col-md-8 textarea'})
-        inputBox.attr({'id':'inputBox-' + currentHour.time})
+        inputBox.attr({'id':'inputBox-' + i})
         hourRow.append(inputBox)
     
     let submitButton = $('<button>')
         submitButton.attr({'class': 'saveBtn col-md-2'})
-        submitButton.attr({'id':'saveBtn-' + currentHour.time})
+        submitButton.attr({'id':'saveBtn-' + i})
         hourRow.append(submitButton)
 
     let buttonImg = $('<img>')
@@ -42,49 +44,25 @@ currentDay.forEach(function(currentHour) {
         buttonImg.attr({'width': '60%'})
         submitButton.append(buttonImg)
 
-    if (currentHour.time > moment().format('HH')) {
+    if (currentDay[i].time > moment().format('HH')) {
         inputBox.attr({'class': 'future col-md-8'})
     }
-    else if (currentHour.time < moment().format('HH')) {
+    else if (currentDay[i].time < moment().format('HH')) {
         inputBox.attr({'class': 'past col-md-8'})
     }
     else {
         inputBox.attr({'class': 'present col-md-8'})
     }
-})
-let nineTodo = localStorage.getItem('9');
-$('#inputBox-9').val(nineTodo);
 
-let tenTodo = localStorage.getItem('10');
-$('#inputBox-10').val(tenTodo);
-
-let elevenTodo = localStorage.getItem('11');
-$('#inputBox-11').val(elevenTodo);
-
-let twelveTodo = localStorage.getItem('12');
-$('#inputBox-12').val(twelveTodo);
-
-let oneTodo = localStorage.getItem('13');
-$('#inputBox-13').val(oneTodo);
-
-let twoTodo = localStorage.getItem('14');
-$('#inputBox-14').val(twoTodo);
-
-let threeTodo = localStorage.getItem('15');
-$('#inputBox-15').val(threeTodo);
-
-let fourTodo = localStorage.getItem('16');
-$('#inputBox-16').val(fourTodo);
-
-let fiveTodo = localStorage.getItem('17');
-$('#inputBox-17').val(fiveTodo);
+    $('#inputBox-' + i).val(currentItem);
+}
 
 $('.saveBtn').click(function(){
     let idFoo = $(this).attr('id')
-    let hour = idFoo.slice(idFoo.indexOf('-') + 1);
+    let index = idFoo.slice(idFoo.indexOf('-') + 1);
 
-let inputFoo = $('#inputBox-' + hour);
+let inputFoo = $('#inputBox-' + index);
 
-localStorage.setItem(hour, inputFoo.val())
+localStorage.setItem('item-' + index, inputFoo.val())
 })
 
